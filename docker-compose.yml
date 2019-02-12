@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  mongo:
+    container_name: 'my-mongo'
+    image: mongo:4.0.6-xenial
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - 27017:27017
+    networks:
+      - backend
+    volumes:
+      - data-volume:/var/lib/mongodb
+networks:
+  backend:
+    name: mongodb-backend
+volumes:
+  data-volume:
+    name: mongodb-volume
