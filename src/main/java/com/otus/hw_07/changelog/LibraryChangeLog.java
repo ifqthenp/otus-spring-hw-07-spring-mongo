@@ -39,7 +39,7 @@ public class LibraryChangeLog {
     private static final String BOOKS = "books";
     private static final String AUTHORS_JSON_RESOURCE = "json/authors.json";
     private static final String GENRES_JSON_RESOURCE = "json/genres.json";
-    private static final String BOOKS_JSON_RESOURCE = "json/books-exp.json";
+    private static final String BOOKS_JSON_RESOURCE = "json/books.json";
 
     private static CodecRegistry codecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
         fromProviders(PojoCodecProvider.builder().automatic(true).build()));
