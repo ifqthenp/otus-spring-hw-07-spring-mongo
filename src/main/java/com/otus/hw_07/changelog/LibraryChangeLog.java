@@ -96,13 +96,6 @@ public class LibraryChangeLog {
         final String jsonFromFile = readFileToString(booksJsonPath);
         final Book[] books = new Gson().fromJson(jsonFromFile, Book[].class);
 
-        Arrays.stream(books).forEach(b -> {
-                System.out.print(b.getId() + " " + b.getAuthors() + " ");
-                System.out.print(b.getComments() + " " + b.getGenres() + " ");
-                System.out.println(b.getTitle() + " " + b.getYear() + " ");
-            }
-        );
-
         for (Book b : books) {
             collection.insertOne(new Document()
                 .append("_id", new ObjectId(b.getId()))
