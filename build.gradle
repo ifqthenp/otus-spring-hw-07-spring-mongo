@@ -58,6 +58,10 @@ dependencies {
     )
 }
 
+application {
+    mainClassName = "com.otus.hw_07.App"
+}
+
 wrapper {
     gradleVersion = '5.2.1'
 }
