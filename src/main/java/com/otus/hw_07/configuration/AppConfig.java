@@ -1,8 +1,23 @@
 package com.otus.hw_07.configuration;
 
+import com.github.cloudyrock.mongock.Mongock;
+import com.github.cloudyrock.mongock.SpringBootMongockBuilder;
+import com.mongodb.MongoClient;
+import com.otus.hw_07.changelog.LibraryChangeLog;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig {
+
+    @Bean
+    public Mongock mongock(final ApplicationContext ac, final MongoClient mongoClient) {
+        return new SpringBootMongockBuilder(mongoClient, "library",
+            LibraryChangeLog.class.getPackage().getName())
+            .setApplicationContext(ac)
+            .setLockQuickConfig()
+            .build();
+    }
 
 }
