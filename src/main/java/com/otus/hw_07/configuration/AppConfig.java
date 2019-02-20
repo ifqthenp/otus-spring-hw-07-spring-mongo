@@ -11,9 +11,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
+    private static final String LIBRARY = "library";
+
     @Bean
     public Mongock mongock(final ApplicationContext ac, final MongoClient mongoClient) {
-        return new SpringBootMongockBuilder(mongoClient, "library",
+        return new SpringBootMongockBuilder(mongoClient, LIBRARY,
             LibraryChangeLog.class.getPackage().getName())
             .setApplicationContext(ac)
             .setLockQuickConfig()
