@@ -3,4 +3,4 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/library
 app:
-  dbType: monogo-prod
+  dbType: mongo-prod
