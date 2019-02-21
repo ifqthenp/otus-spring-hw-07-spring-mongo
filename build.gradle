@@ -67,7 +67,8 @@ wrapper {
 }
 
 testlogger {
-    theme 'mocha-parallel'
+    theme 'standard-parallel'
+    showStandardStreams = true
 }
 
 test {
