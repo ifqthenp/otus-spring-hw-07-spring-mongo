@@ -15,7 +15,7 @@ public class AppConfig {
     private static final String LIBRARY = "library";
 
     @Bean
-    @ConditionalOnProperty(prefix = "app.config", name = "dbType", havingValue = "mongo-test")
+    @ConditionalOnProperty(prefix = "app.config", name = "dbType", havingValue = "mongo-docker")
     public Mongock mongock(final ApplicationContext ac, final MongoClient mongoClient) {
         return new SpringBootMongockBuilder(mongoClient, LIBRARY,
             LibraryChangeLog.class.getPackage().getName())
