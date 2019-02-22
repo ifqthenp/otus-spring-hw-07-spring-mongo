@@ -7,7 +7,6 @@ import com.otus.hw_07.repositories.AuthorRepository;
 import com.otus.hw_07.repositories.BookRepository;
 import com.otus.hw_07.repositories.GenreRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
