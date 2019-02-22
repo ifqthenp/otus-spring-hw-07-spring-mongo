@@ -1,6 +1,8 @@
 plugins {
     id 'java'
     id 'groovy'
+    id 'jacoco'
+    id 'application'
     id 'com.adarshr.test-logger' version '1.6.0'
     id "org.springframework.boot" version "2.1.2.RELEASE"
 }
@@ -17,17 +19,25 @@ repositories {
 }
 
 ext {
+    gsonVersion = '2.8.5'
     spockVersion = '1.2-groovy-2.5'
     groovyVersion = '2.5.6'
     springShellVersion = '2.0.1.RELEASE'
     junitJupiterVersion = '5.3.2'
     junitVintageVersion = '5.3.2'
+    javaAssistVersion = '3.18.2-GA'
+    mongockVersion = '2.0.0'
 }
 
 dependencies {
     implementation(
+        "com.google.code.gson:gson:${gsonVersion}",
         'org.springframework.boot:spring-boot-starter-data-mongodb',
-        "org.springframework.shell:spring-shell-starter:${springShellVersion}"
+        "org.springframework.shell:spring-shell-starter:${springShellVersion}",
+        "org.javassist:javassist:${javaAssistVersion}",
+        "com.github.cloudyrock.mongock:mongock-core:${mongockVersion}",
+        "com.github.cloudyrock.mongock:mongock-spring:${mongockVersion}",
+        "com.github.cloudyrock.mongock:mongock-jongo:${mongockVersion}"
     )
     runtimeOnly 'org.springframework.boot:spring-boot-devtools'
     compileOnly 'org.projectlombok:lombok'
@@ -48,12 +58,17 @@ dependencies {
     )
 }
 
+application {
+    mainClassName = "com.otus.hw_07.App"
+}
+
 wrapper {
     gradleVersion = '5.2.1'
 }
 
 testlogger {
-    theme 'mocha-parallel'
+    theme 'standard-parallel'
+    showStandardStreams = true
 }
 
 test {
