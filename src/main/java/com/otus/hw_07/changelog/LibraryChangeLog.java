@@ -124,7 +124,7 @@ public class LibraryChangeLog {
                 list.add(str);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception in LibraryChangeLog class: {}", e);
         }
         return list;
     }
