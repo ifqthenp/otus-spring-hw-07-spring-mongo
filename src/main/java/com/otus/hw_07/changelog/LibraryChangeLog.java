@@ -4,11 +4,11 @@ import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.google.gson.Gson;
 import com.mongodb.MongoClient;
-import com.mongodb.client.MongoCollection;
 import com.otus.hw_07.domain.Author;
 import com.otus.hw_07.domain.Book;
 import com.otus.hw_07.domain.Genre;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -51,8 +51,7 @@ public class LibraryChangeLog {
 
     @ChangeSet(author = "user", id = "createGenres", order = "020")
     public void createGenres(final MongoTemplate template) {
-        final MongoCollection<Document> collection =
-            template.getDb().getCollection(GENRES);
+        val collection = template.getDb().getCollection(GENRES);
 
         final List<String> jsonFileContent = getFileContents(GENRES_JSON_RESOURCE);
         final String jsonFromFile = readFileToString(jsonFileContent);
@@ -69,8 +68,7 @@ public class LibraryChangeLog {
 
     @ChangeSet(author = "user", id = "createAuthors", order = "010")
     public void createAuthors(final MongoTemplate template) {
-        final MongoCollection<Document> collection =
-            template.getDb().getCollection(AUTHORS);
+        val collection = template.getDb().getCollection(AUTHORS);
 
         final List<String> jsonFileContent = getFileContents(AUTHORS_JSON_RESOURCE);
         final String jsonFromFile = readFileToString(jsonFileContent);
@@ -88,8 +86,7 @@ public class LibraryChangeLog {
 
     @ChangeSet(author = "user", id = "createBooks", order = "030")
     public void createBooks(final MongoTemplate template) {
-        final MongoCollection<Document> collection =
-            template.getDb().withCodecRegistry(codecRegistry).getCollection(BOOKS);
+        val collection = template.getDb().withCodecRegistry(codecRegistry).getCollection(BOOKS);
 
         final List<String> jsonFileContent = getFileContents(BOOKS_JSON_RESOURCE);
         final String jsonFromFile = readFileToString(jsonFileContent);
@@ -127,7 +124,7 @@ public class LibraryChangeLog {
                 list.add(str);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception in LibraryChangeLog class: {}", e);
         }
         return list;
     }

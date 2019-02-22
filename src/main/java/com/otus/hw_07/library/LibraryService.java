@@ -6,26 +6,18 @@ import com.otus.hw_07.domain.Genre;
 import com.otus.hw_07.repositories.AuthorRepository;
 import com.otus.hw_07.repositories.BookRepository;
 import com.otus.hw_07.repositories.GenreRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class LibraryService {
 
-    private AuthorRepository authorRepository;
-    private GenreRepository genreRepository;
-    private BookRepository bookRepository;
-
-    @Autowired
-    public LibraryService(final AuthorRepository authorRepository,
-                          final GenreRepository genreRepository,
-                          final BookRepository bookRepository) {
-        this.authorRepository = authorRepository;
-        this.genreRepository = genreRepository;
-        this.bookRepository = bookRepository;
-    }
+    private final AuthorRepository authorRepository;
+    private final GenreRepository genreRepository;
+    private final BookRepository bookRepository;
 
     public List<Book> findAllBooks() {
         return bookRepository.findAll();
