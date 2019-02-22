@@ -15,17 +15,16 @@ import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.Objects;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Objects.requireNonNull;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
@@ -55,8 +54,8 @@ public class LibraryChangeLog {
         final MongoCollection<Document> collection =
             template.getDb().getCollection(GENRES);
 
-        final Path pathToGenresJson = getPath(GENRES_JSON_RESOURCE);
-        final String jsonFromFile = readFileToString(pathToGenresJson);
+        final List<String> jsonFileContent = getFileContents(GENRES_JSON_RESOURCE);
+        final String jsonFromFile = readFileToString(jsonFileContent);
         final Genre[] genres = new Gson().fromJson(jsonFromFile, Genre[].class);
 
         for (Genre g : genres) {
@@ -73,8 +72,8 @@ public class LibraryChangeLog {
         final MongoCollection<Document> collection =
             template.getDb().getCollection(AUTHORS);
 
-        final Path pathToAuthorsJson = getPath(AUTHORS_JSON_RESOURCE);
-        final String jsonFromFile = readFileToString(pathToAuthorsJson);
+        final List<String> jsonFileContent = getFileContents(AUTHORS_JSON_RESOURCE);
+        final String jsonFromFile = readFileToString(jsonFileContent);
         final Author[] authors = new Gson().fromJson(jsonFromFile, Author[].class);
 
         for (Author a : authors) {
@@ -92,8 +91,8 @@ public class LibraryChangeLog {
         final MongoCollection<Document> collection =
             template.getDb().withCodecRegistry(codecRegistry).getCollection(BOOKS);
 
-        final Path booksJsonPath = getPath(BOOKS_JSON_RESOURCE);
-        final String jsonFromFile = readFileToString(booksJsonPath);
+        final List<String> jsonFileContent = getFileContents(BOOKS_JSON_RESOURCE);
+        final String jsonFromFile = readFileToString(jsonFileContent);
         final Book[] books = new Gson().fromJson(jsonFromFile, Book[].class);
 
         for (Book b : books) {
@@ -109,26 +108,28 @@ public class LibraryChangeLog {
         log.info("Created collection {}", BOOKS);
     }
 
-    public String readFileToString(final Path path) {
-        String result = "";
-        try (Stream<String> lines = Files.lines(path, Charset.forName("UTF-8"))) {
+    public String readFileToString(final List<String> list) {
+        String result;
+        try (Stream<String> lines = list.stream()) {
             result = lines
                 .map(String::trim)
                 .collect(Collectors.joining());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return result;
     }
 
-    private Path getPath(final String resource) {
-        try {
-            return Paths.get(Objects.requireNonNull(getClass().getClassLoader()
-                .getResource(resource)).toURI());
-        } catch (URISyntaxException e) {
+    private List<String> getFileContents(final String resource) {
+        final List<String> list = new ArrayList<>();
+        String str;
+        try (final InputStream is = getClass().getClassLoader().getResourceAsStream(resource);
+             final BufferedReader br = new BufferedReader(new InputStreamReader(requireNonNull(is)))) {
+            while ((str = br.readLine()) != null) {
+                list.add(str);
+            }
+        } catch (IOException e) {
             e.printStackTrace();
-            return null;
         }
+        return list;
     }
 
 }

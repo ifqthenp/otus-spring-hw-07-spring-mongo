@@ -3,7 +3,6 @@ package com.otus.hw_07.changelog
 import spock.lang.Specification
 import spock.lang.Subject
 
-import java.nio.file.Path
 import java.nio.file.Paths
 
 class LibraryChangeLogSpec extends Specification {
@@ -29,13 +28,7 @@ class LibraryChangeLogSpec extends Specification {
         result.endsWith('"de Cervantes"}]')
     }
 
-    /**
-     * Gets a path to the resource file on the test classpath
-     *
-     * @param resource name of the file
-     * @return the path to the resource file
-     */
-    private Path getPath(String resource) {
-        return Paths.get(getClass().getResource(resource).toURI())
+    private List<String> getPath(String resource) {
+        return Paths.get(getClass().getResource(resource).toURI()).readLines()
     }
 }
