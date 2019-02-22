@@ -3,4 +3,5 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/library
 app:
-  dbType: mongo-prod
+  config:
+    dbType: mongo-docker
